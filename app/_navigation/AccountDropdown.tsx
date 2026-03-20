@@ -1,4 +1,4 @@
-import { User as AuthUser } from "lucia";
+import { User as AuthUser } from "@prisma/client";
 import { LucideLogOut, LucideUser } from "lucide-react";
 import Link from "next/link";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";

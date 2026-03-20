@@ -1,8 +1,8 @@
 'use server'
-import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
-import { lucia } from "@/lib/lucia";
+import { invalidateSession } from "@/lib/lucia";
 import { signInPath } from "@/lib/paths";
+import { deleteSessionCookie } from "@/utils/session-cookie";
 import { getAuth } from "./getAuth"
 
 export const signOut = async () => {
@@ -12,14 +12,8 @@ export const signOut = async () => {
         redirect(signInPath());
     }
 
-    await lucia.invalidateSession(session.id);
-
-    const sessionCookie = lucia.createBlankSessionCookie();
-    (await cookies()).set(
-        sessionCookie.name,
-        sessionCookie.value,
-        sessionCookie.attributes
-    )
+    await invalidateSession(session.id);
+    await deleteSessionCookie();
 
     redirect(signInPath())
 };

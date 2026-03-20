@@ -1,11 +1,11 @@
-import { User as AuthUser } from "lucia"
+import { User as AuthUser } from "@prisma/client"
 
 
 type Entity = {
     userId: string | null
 }
 
-export const isOwner =  (
+export const isOwner = (
     authUser: AuthUser | null | undefined,
     entity: Entity | null | undefined
 ) => {
