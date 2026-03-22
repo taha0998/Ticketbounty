@@ -3,6 +3,7 @@
 import z from "zod";
 import { ActionState, fromErrorToActionState, toActionState } from "@/components/form/utils/toActinoState";
 import { prisma } from "@/lib/prisma";
+import { generatePasswordRestLink } from "@/utils/generatePasswordRestLink";
 
 
 const passwordForgetShema = z.object({
@@ -20,7 +21,10 @@ export const passwordForget = async (_actionState: ActionState, formData: FormDa
             return toActionState('ERROR', 'Incorrect email', formData)
         }
 
+        const passwordRestLink = await generatePasswordRestLink(user.id)
+
         //Send email with link
+        console.log(passwordRestLink)
 
     } catch (error) {
         return fromErrorToActionState(error, formData)

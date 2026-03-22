@@ -1,5 +1,6 @@
 'use server'
 import { redirect } from "next/navigation";
+import { setCookieByKey } from "@/actions/cookies";
 import { invalidateSession } from "@/lib/lucia";
 import { signInPath } from "@/lib/paths";
 import { deleteSessionCookie } from "@/utils/session-cookie";
@@ -15,5 +16,6 @@ export const signOut = async () => {
     await invalidateSession(session.id);
     await deleteSessionCookie();
 
+    setCookieByKey('toast', 'SignOut Successfully')
     redirect(signInPath())
 };
