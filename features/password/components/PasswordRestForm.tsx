@@ -5,7 +5,7 @@ import { Form } from "@/components/form/Form";
 import { SubmitButton } from "@/components/form/SubmitButton";
 import { EMPTY_ACTION_STATE } from "@/components/form/utils/toActinoState";
 import { Input } from "@/components/ui/input";
-import { passwordRest } from "../actions/password-rest";
+import { passwordReset } from "../actions/password-reset";
 
 type PasswordRestFormProps = {
   tokenId: string;
@@ -13,7 +13,7 @@ type PasswordRestFormProps = {
 
 const PasswordRestForm = ({ tokenId }: PasswordRestFormProps) => {
   const [actionState, action] = useActionState(
-    passwordRest.bind(null, tokenId),
+    passwordReset.bind(null, tokenId),
     EMPTY_ACTION_STATE,
   );
 

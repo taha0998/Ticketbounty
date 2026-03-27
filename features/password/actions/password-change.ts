@@ -7,23 +7,21 @@ import { generatePasswordRestLink } from "@/utils/generatePasswordRestLink";
 import { verifyPasswordHash } from "@/utils/hash-and-verify";
 
 const passwordChangeShema = z.object({
-    password: z.string().min(6).max(191)
+    password: z.string().min(1).max(191)
 })
 
 export const passwordChange = async (_actionState: ActionState, formData: FormData) => {
+
     const auth = await getAuthOrRedirect()
 
     try {
         const { password } = passwordChangeShema.parse(Object.fromEntries(formData))
+        const validePassword = await verifyPasswordHash(auth.user.passwordHash, password)
 
-        const validPassword = await verifyPasswordHash(auth.user.passwordHash, password)
-
-        if (!validPassword) {
+        if (!validePassword) {
             return toActionState('ERROR', 'Incorrect password', formData)
         }
-
         const passwordRestLink = await generatePasswordRestLink(auth.user.id)
-
 
         //TODO send email with rest link
         console.log(passwordRestLink)
@@ -31,6 +29,6 @@ export const passwordChange = async (_actionState: ActionState, formData: FormDa
     } catch (error) {
         return fromErrorToActionState(error)
     }
-    return toActionState('SUCCESS', 'Check your email for a rest link')
 
+    return toActionState('SUCCESS', 'Check your email for a rest link')
 }

@@ -23,7 +23,7 @@ const passwordRestShema = z.object({
 })
 
 
-export const passwordRest = async (tokenId: string, _actionState: ActionState, formData: FormData) => {
+export const passwordReset = async (tokenId: string, _actionState: ActionState, formData: FormData) => {
     try {
         const { password } = passwordRestShema.parse(Object.fromEntries(formData))
 
