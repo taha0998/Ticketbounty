@@ -5,6 +5,7 @@ import { ActionState, fromErrorToActionState, toActionState } from "@/components
 import { getAuthOrRedirect } from "@/features/auth/queries/getAuthOrRedirect";
 import { generatePasswordRestLink } from "@/utils/generatePasswordRestLink";
 import { verifyPasswordHash } from "@/utils/hash-and-verify";
+import { sendEmailPasswordRest } from "../emails/send-email-password-resend";
 
 const passwordChangeShema = z.object({
     password: z.string().min(1).max(191)
@@ -23,8 +24,8 @@ export const passwordChange = async (_actionState: ActionState, formData: FormDa
         }
         const passwordRestLink = await generatePasswordRestLink(auth.user.id)
 
-        //TODO send email with rest link
-        console.log(passwordRestLink)
+
+        await sendEmailPasswordRest(auth.user.username, auth.user.email, passwordRestLink)
 
     } catch (error) {
         return fromErrorToActionState(error)
