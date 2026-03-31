@@ -3,8 +3,13 @@ import { prisma } from "@/lib/prisma";
 import { generatePasswordRestLink } from "@/utils/generatePasswordRestLink";
 import { sendEmailPasswordReset } from "../emails/send-email-password-resend";
 
+export type PasswordRestEventArgs = {
+    data: { userId: string }
+}
+
 export const passwordRestEvent = inngest.createFunction(
-    { id: 'password-rest', triggers: { event: 'app/password.password-rest' } },
+    { id: 'password-rest' },
+    { event: 'app/password.password-rest' },
     async ({ event }) => {
         const { userId } = event.data;
 
@@ -19,6 +24,10 @@ export const passwordRestEvent = inngest.createFunction(
             user.email,
             passwordRestLink
         )
+
+        if (result.error) {
+            throw new Error(`${result.error.name}: ${result.error.message}`)
+        }
 
         return { event, body: result }
     }
