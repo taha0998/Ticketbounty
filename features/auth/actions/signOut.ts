@@ -4,7 +4,7 @@ import { setCookieByKey } from "@/actions/cookies";
 import { invalidateSession } from "@/lib/lucia";
 import { signInPath } from "@/lib/paths";
 import { deleteSessionCookie } from "@/utils/session-cookie";
-import { getAuth } from "./getAuth"
+import { getAuth } from "./get-auth"
 
 export const signOut = async () => {
     const { session } = await getAuth();

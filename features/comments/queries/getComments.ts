@@ -1,5 +1,5 @@
 "use server"
-import { getAuth } from "@/features/auth/actions/getAuth"
+import { getAuth } from "@/features/auth/actions/get-auth"
 import { isOwner } from "@/features/auth/utils/isOwner";
 import { prisma } from "@/lib/prisma";
 

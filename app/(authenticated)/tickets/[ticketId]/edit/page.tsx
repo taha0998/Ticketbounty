@@ -2,7 +2,7 @@ import { notFound } from "next/navigation";
 import { Breadcrumbs } from "@/components/Breadcrumbs";
 import CardCompact from "@/components/CardCompact";
 import { Separator } from "@/components/ui/separator";
-import { getAuth } from "@/features/auth/actions/getAuth";
+import { getAuth } from "@/features/auth/actions/get-auth";
 import { isOwner } from "@/features/auth/utils/isOwner";
 import { TicketUpsertForm } from "@/features/ticket/components/TicketUpsertForm";
 import { getTicket } from "@/features/ticket/queries/get-ticket";

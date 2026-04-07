@@ -8,6 +8,7 @@ import { prisma } from '@/lib/prisma';
 import { generateRandomToken } from '@/utils/crypto';
 import { hashPassword } from '@/utils/hash-and-verify';
 import { setSessionCookie } from '@/utils/session-cookie';
+import { generateEmailVerificationCode } from '../utils/generate-email-verification-code';
 
 
 const signUpShema = z.object({
@@ -57,6 +58,9 @@ export const signUp = async (_actionStae: ActionState, formData: FormData) => {
                 passwordHash
             },
         });
+
+        const verificationCode = await generateEmailVerificationCode(user.id, email)
+        console.log(verificationCode)
 
         const sessionToken = generateRandomToken();
         const session = await createSession(sessionToken, user.id)

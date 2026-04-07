@@ -3,7 +3,7 @@ import { Suspense } from "react";
 import CardCompact from "@/components/CardCompact";
 import { Heading } from "@/components/Heading";
 import { Spinner } from "@/components/Spinner";
-import { getAuth } from "@/features/auth/actions/getAuth";
+import { getAuth } from "@/features/auth/actions/get-auth";
 import { TicketList } from "@/features/ticket/components/TicketList";
 import { TicketUpsertForm } from "@/features/ticket/components/TicketUpsertForm";
 import { searchParamsCache } from "@/features/ticket/SearchParams";
