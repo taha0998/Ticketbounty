@@ -12,7 +12,6 @@ export const generateEmailVerificationCode = async (
     });
 
     const code = generateRandomCode();
-    console.log(code)
 
     await prisma.emailVerificationToken.create({
         data: {

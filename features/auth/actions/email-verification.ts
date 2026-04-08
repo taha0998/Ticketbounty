@@ -2,6 +2,7 @@
 
 import { redirect } from "next/navigation"
 import z from "zod"
+import { setCookieByKey } from "@/actions/cookies"
 import { ActionState, fromErrorToActionState, toActionState } from "@/components/form/utils/toActinoState"
 import { createSession } from "@/lib/lucia"
 import { ticketsPath } from "@/lib/paths"
@@ -16,7 +17,9 @@ const emailVerificationShema = z.object({
 })
 
 export const emailVerification = async (_actionState: ActionState, formData: FormData) => {
-    const { user } = await getAuthOrRedirect()
+    const { user } = await getAuthOrRedirect({
+        checkEmailVerified: false,
+    })
 
     try {
         const { code } = emailVerificationShema.parse(
@@ -28,7 +31,6 @@ export const emailVerification = async (_actionState: ActionState, formData: For
             user.email,
             code
         )
-        console.log(valideCode)
         if (!valideCode) {
             return toActionState('ERROR', 'Invalid or expired code');
         }
@@ -49,5 +51,7 @@ export const emailVerification = async (_actionState: ActionState, formData: For
     } catch (error) {
         return fromErrorToActionState(error)
     }
+
+    await setCookieByKey('toast', 'Email Verified')
     redirect(ticketsPath())
 }

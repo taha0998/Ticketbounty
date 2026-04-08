@@ -2,13 +2,13 @@
 import { redirect } from 'next/navigation';
 import z from "zod"
 import { ActionState, fromErrorToActionState } from "@/components/form/utils/toActinoState";
+import { inngest } from '@/lib/inngest';
 import { createSession } from '@/lib/lucia';
 import { ticketsPath } from '@/lib/paths';
 import { prisma } from '@/lib/prisma';
 import { generateRandomToken } from '@/utils/crypto';
 import { hashPassword } from '@/utils/hash-and-verify';
 import { setSessionCookie } from '@/utils/session-cookie';
-import { generateEmailVerificationCode } from '../utils/generate-email-verification-code';
 
 
 const signUpShema = z.object({
@@ -59,8 +59,10 @@ export const signUp = async (_actionStae: ActionState, formData: FormData) => {
             },
         });
 
-        const verificationCode = await generateEmailVerificationCode(user.id, email)
-        console.log(verificationCode)
+        await inngest.send({
+            name: 'app/auth.verification',
+            data: { userId: user.id }
+        })
 
         const sessionToken = generateRandomToken();
         const session = await createSession(sessionToken, user.id)

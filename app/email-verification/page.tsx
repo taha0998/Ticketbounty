@@ -1,5 +1,6 @@
 import CardCompact from "@/components/CardCompact";
 import { EmailVerificationForm } from "@/features/auth/components/EmailVerificationForm";
+import { EmailVerificationResendForm } from "@/features/auth/components/EmailVerificationResendForm";
 
 const EmailVerificationPage = () => {
   return (
@@ -8,7 +9,12 @@ const EmailVerificationPage = () => {
         title="Verify Email"
         description="Please verify your email to continue"
         className="w-full max-w-105 animate-fade-in-top"
-        content={<EmailVerificationForm />}
+        content={
+          <div className="flex flex-col gap-y-2">
+            <EmailVerificationForm />
+            <EmailVerificationResendForm />
+          </div>
+        }
       />
     </div>
   );

@@ -8,7 +8,7 @@ export const sendEmailPasswordReset = async (
 ) => {
   return await resend.emails.send({
     from: "TicketBounty@resend.dev",
-    to: email,
+    to: "taha2020tahataha@gmail.com", //testEmail,need domain validation to use email
     subject: "Password Rest from TicketBounty",
     react: <EmailPasswordRest toName={username} url={passwordRestLink} />,
   });
