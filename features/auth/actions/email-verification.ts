@@ -19,6 +19,7 @@ const emailVerificationShema = z.object({
 export const emailVerification = async (_actionState: ActionState, formData: FormData) => {
     const { user } = await getAuthOrRedirect({
         checkEmailVerified: false,
+        checkOrganization: false
     })
 
     try {

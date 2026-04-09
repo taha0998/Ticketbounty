@@ -22,6 +22,8 @@ model Membership {
   userId         String
   user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
 
+  joinedAt DateTime @default(now())
+
   @@id([userId, organizationId])
   @@index([organizationId])
   @@index([userId])
