@@ -15,6 +15,7 @@ const createOrganizationShema = z.object({
 export const createOrganization = async (_actionState: ActionState, formData: FormData) => {
     const { user } = await getAuthOrRedirect({
         checkOrganization: false,
+        checkActiveOrganization: false
     })
 
     try {
@@ -22,15 +23,30 @@ export const createOrganization = async (_actionState: ActionState, formData: Fo
             name: formData.get('name')
         })
 
-        await prisma.organization.create({
-            data: {
-                ...data,
-                membership: {
-                    create: {
-                        userId: user.id
+        await prisma.$transaction(async (tx) => {
+            const organization = await tx.organization.create({
+                data: {
+                    ...data,
+                    membership: {
+                        create: {
+                            userId: user.id,
+                            isActive: true
+                        }
                     }
                 }
-            }
+            });
+
+            await tx.membership.updateMany({
+                where: {
+                    userId: user.id,
+                    organizationId: {
+                        not: organization.id
+                    }
+                },
+                data: {
+                    isActive: false
+                }
+            })
         })
 
     } catch (error) {

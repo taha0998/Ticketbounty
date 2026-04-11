@@ -11,7 +11,7 @@ const users = [
     {
         username: 'Taha',
         email: 'taha2020tahataha@gmail.com',
-        emailVerified: false
+        emailVerified: true
     }
 ]
 
@@ -72,7 +72,8 @@ const seed = async () => {
     await prisma.membership.create({
         data: {
             userId: dbUsers[0].id,
-            organizationId: dbOrganization.id
+            organizationId: dbOrganization.id,
+            isActive: true
         }
     })
 

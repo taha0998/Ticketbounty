@@ -1,5 +1,4 @@
 "use client";
-import clsx from "clsx";
 import { LucideLoader2 } from "lucide-react";
 import { cloneElement, HTMLAttributes } from "react";
 import { useFormStatus } from "react-dom";
@@ -32,25 +31,16 @@ const SubmitButton = ({ label, icon, variant, size }: SubmitButtonProps) => {
   const { pending } = useFormStatus();
   return (
     <Button disabled={pending} type="submit" variant={variant} size={size}>
-      {pending && (
-        <LucideLoader2
-          className={clsx("h-4 w-4 animate-spin", {
-            "mr-2": !!label,
-          })}
-        />
-      )}
-      {label}
-      {pending ? null : icon ? (
-        <span
-          className={clsx({
-            "ml-2": !!label,
-          })}
-        >
+      {pending ? (
+        <LucideLoader2 className="h-4 w-4 animate-spin" />
+      ) : icon ? (
+        <>
           {cloneElement(icon, {
-            className: "h-4 w-4",
+            className: "w-4 h-4",
           })}
-        </span>
+        </>
       ) : null}
+      {label}
     </Button>
   );
 };
