@@ -16,5 +16,7 @@ export const passwordRestPath = () => '/password-reset'
 export const organizationPath = () => '/organization'
 export const organizationCreatePath = () => '/organization/create'
 
+export const membershipsPath = (organizationId: string) => `/organization/${organizationId}/memberships`
+
 export const accountProfilePath = () => '/account/profile'
 export const accountPasswordPath = () => '/account/password'

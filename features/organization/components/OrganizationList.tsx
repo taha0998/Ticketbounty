@@ -3,8 +3,8 @@ import {
   LucideArrowLeftRight,
   LucideArrowUpRightFromSquare,
   LucidePen,
-  LucideTrash,
 } from "lucide-react";
+import Link from "next/link";
 import { SubmitButton } from "@/components/form/SubmitButton";
 import { Button } from "@/components/ui/button";
 import {
@@ -15,10 +15,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { membershipsPath } from "@/lib/paths";
 import { getOrganizationsByUser } from "../queries/get-organizations-by-user";
+import { OrganizationDeleteButton } from "./OrganizationDeleteButton";
 import { OrganizationSwitchButton } from "./OrganizationSwitchButton";
 
-const OrganizationList = async () => {
+type OrganizationListProps = {
+  limitedAccess?: boolean;
+};
+
+const OrganizationList = async ({ limitedAccess }: OrganizationListProps) => {
   const organizations = await getOrganizationsByUser();
 
   const hasActive = organizations.some(
@@ -63,8 +69,10 @@ const OrganizationList = async () => {
             );
 
             const detailButton = (
-              <Button variant={"outline"} size={"icon"}>
-                <LucideArrowUpRightFromSquare className="w-4 h-4" />
+              <Button variant={"outline"} size={"icon"} asChild>
+                <Link href={membershipsPath(org.id)}>
+                  <LucideArrowUpRightFromSquare className="w-4 h-4" />
+                </Link>
               </Button>
             );
 
@@ -75,17 +83,15 @@ const OrganizationList = async () => {
             );
 
             const deleteButton = (
-              <Button variant={"destructive"} size={"icon"}>
-                <LucideTrash className="w-4 h-4" />
-              </Button>
+              <OrganizationDeleteButton organizationId={org.id} />
             );
 
             const buttons = (
               <>
                 {switchButton}
-                {detailButton}
-                {editButton}
-                {deleteButton}
+                {limitedAccess ? null : detailButton}
+                {limitedAccess ? null : editButton}
+                {limitedAccess ? null : deleteButton}
               </>
             );
 
