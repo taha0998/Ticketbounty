@@ -6,6 +6,19 @@ import { prisma } from "@/lib/prisma";
 export const getMemberships = async (organizationId: string) => {
     await getAuthOrRedirect();
 
-    // return await prisma.membership
+    return await prisma.membership.findMany({
+        where: {
+            organizationId
+        },
+        include: {
+            user: {
+                select: {
+                    username: true,
+                    email: true,
+                    emailVerified: true
+                }
+            }
+        }
+    })
 
 }

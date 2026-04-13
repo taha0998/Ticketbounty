@@ -30,7 +30,8 @@ export const createOrganization = async (_actionState: ActionState, formData: Fo
                     membership: {
                         create: {
                             userId: user.id,
-                            isActive: true
+                            isActive: true,
+                            membershipRole: 'ADMIN'
                         }
                     }
                 }
