@@ -10,6 +10,7 @@ import {
 } from "@/components/ui/table";
 import { getMemberships } from "../queries/get-memberships";
 import { MembershipDeleteButton } from "./MembershipDeleteButton";
+import { MembershipMoreMenu } from "./MembershipMoreMenu";
 
 type MembershipListProps = {
   organizationId: string;
@@ -32,6 +33,14 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
       </TableHeader>
       <TableBody>
         {memberships.map((membership) => {
+          const membershipMoreMenu = (
+            <MembershipMoreMenu
+              userId={membership.userId}
+              organizationId={organizationId}
+              membershipRole={membership.membershipRole}
+            />
+          );
+
           const deleteButton = (
             <MembershipDeleteButton
               organizationId={organizationId}
@@ -39,7 +48,12 @@ const MembershipList = async ({ organizationId }: MembershipListProps) => {
             />
           );
 
-          const buttons = <>{deleteButton}</>;
+          const buttons = (
+            <>
+              {membershipMoreMenu}
+              {deleteButton}
+            </>
+          );
 
           return (
             <TableRow key={membership.userId}>
